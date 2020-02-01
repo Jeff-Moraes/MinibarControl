@@ -3,10 +3,11 @@ import Sequelize from 'sequelize';
 import User from '../app/models/User';
 import Minibar from '../app/models/Minibar';
 import Room from '../app/models/Room';
+import MinibarCheck from '../app/models/MinibarCheck';
 
 import databaseConfig from '../config/database';
 
-const models = [User, Minibar, Room];
+const models = [User, Minibar, Room, MinibarCheck];
 
 class Database {
   constructor() {
