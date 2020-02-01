@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { getDayOfYear } from 'date-fns';
 
 import MinibarCheck from '../models/MinibarCheck';
 
@@ -18,14 +19,23 @@ class RoomController {
 
     const user_id = req.userId;
 
-    const consumed = await MinibarCheck.create({
+    const consumed = {
       user_id,
       status,
       consumed_items,
       note,
       room_id,
       minibar_id,
-    });
+    };
+
+    const room = await MinibarCheck.findOne({ where: { room_id } });
+
+    if (room && getDayOfYear(room.createdAt) === getDayOfYear(new Date())) {
+      await MinibarCheck.update(consumed, { where: { room_id } });
+      return res.json(consumed);
+    }
+
+    await MinibarCheck.create(consumed);
 
     return res.json(consumed);
   }

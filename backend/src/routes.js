@@ -14,7 +14,7 @@ routes.post('/users', UserController.store);
 routes.post('/sessions', SessionController.store);
 
 routes.use(authMiddleware);
-// all the routes after the authMiddleware will use it
+// authMiddleware will apply in all routes after this line
 routes.post('/checks', MinibarCheckController.store);
 
 routes.put('/users', UserController.update);
