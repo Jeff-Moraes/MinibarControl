@@ -13,8 +13,11 @@ class Room extends Model {
         sequelize,
       }
     );
-
     return this;
+  }
+
+  static associate(models) {
+    this.belongsTo(models.Minibar, { foreignKey: 'minibar_id' });
   }
 }
 

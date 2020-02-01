@@ -6,9 +6,9 @@ class RoomController {
       return res.status(400).json({ error: 'User is not Admin' });
     }
 
-    const { number, floor, status, minibarId, note } = req.body;
+    const { number, floor, status, minibar_id, note } = req.body;
 
-    const room = await Room.create({ number, floor, status, minibarId, note });
+    const room = await Room.create({ number, floor, status, minibar_id, note });
 
     return res.json(room);
   }
