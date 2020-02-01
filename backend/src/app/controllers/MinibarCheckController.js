@@ -1,9 +1,69 @@
 import * as Yup from 'yup';
-import { getDayOfYear } from 'date-fns';
+import { getDayOfYear, addDays, parseISO } from 'date-fns';
+import { Op } from 'sequelize';
 
+import User from '../models/User';
+import Room from '../models/Room';
+import Minibar from '../models/Minibar';
 import MinibarCheck from '../models/MinibarCheck';
 
 class RoomController {
+  async index(req, res) {
+    const allConsumed = await MinibarCheck.findAll({
+      order: ['updated_at'],
+      include: [
+        {
+          model: User,
+          attributes: ['name'],
+        },
+        {
+          model: Room,
+          attributes: ['number', 'floor'],
+        },
+        {
+          model: Minibar,
+          attributes: ['name'],
+        },
+      ],
+    });
+
+    res.json(allConsumed);
+  }
+
+  async show(req, res) {
+    const { roomId } = req.params;
+    const { startDate, endDate } = req.query;
+
+    const parseStart = addDays(parseISO(startDate), 1);
+    const parseEnd = parseISO(endDate);
+
+    const room = await MinibarCheck.findOne({
+      where: {
+        room_id: roomId,
+        updated_at: {
+          [Op.between]: [parseStart, parseEnd],
+        },
+      },
+      order: ['updated_at'],
+      include: [
+        {
+          model: User,
+          attributes: ['name'],
+        },
+        {
+          model: Room,
+          attributes: ['number', 'floor'],
+        },
+        {
+          model: Minibar,
+          attributes: ['name'],
+        },
+      ],
+    });
+
+    res.json(room);
+  }
+
   async store(req, res) {
     const schema = Yup.object({
       status: Yup.string().required(),
