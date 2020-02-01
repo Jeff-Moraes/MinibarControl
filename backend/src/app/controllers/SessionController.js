@@ -29,6 +29,8 @@ class SessionController {
 
     const { id, admin } = user;
 
+    req.userAdmin = user.admin;
+
     return res.json({
       user: {
         id,

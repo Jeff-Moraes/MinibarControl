@@ -28,6 +28,7 @@ class UserController {
   async update(req, res) {
     const schema = Yup.object({
       name: Yup.string(),
+      userId: Yup.number(),
       oldPassword: Yup.string().min(6),
       password: Yup.string()
         .min(6)
@@ -43,9 +44,18 @@ class UserController {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    const { name, oldPassword } = req.body;
+    if (!req.userAdmin) {
+      return res.status(400).json({ error: 'User is not Admin' });
+    }
 
-    const user = await User.findByPk(req.userId);
+    const { name, oldPassword, userId } = req.body;
+
+    let user;
+    if (userId) {
+      user = await User.findByPk(userId);
+    } else {
+      user = await User.findByPk(req.userId);
+    }
 
     if (name && name !== user.name) {
       const userExists = await User.findOne({ where: { name } });
