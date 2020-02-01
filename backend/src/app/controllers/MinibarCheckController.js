@@ -7,7 +7,7 @@ import Room from '../models/Room';
 import Minibar from '../models/Minibar';
 import MinibarCheck from '../models/MinibarCheck';
 
-class RoomController {
+class MinibarCheckController {
   async index(req, res) {
     const allConsumed = await MinibarCheck.findAll({
       order: ['updated_at'],
@@ -101,4 +101,4 @@ class RoomController {
   }
 }
 
-export default new RoomController();
+export default new MinibarCheckController();
