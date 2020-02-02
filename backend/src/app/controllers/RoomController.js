@@ -82,6 +82,18 @@ class RoomController {
 
     return res.json(roomUpdate);
   }
+
+  async delete(req, res) {
+    if (!req.userAdmin) {
+      return res.status(400).json({ error: 'User is not Admin' });
+    }
+
+    const { roomId } = req.params;
+
+    await Room.destroy({ where: { id: roomId } });
+
+    return res.json({ message: `Room ${roomId} has been deleted.` });
+  }
 }
 
 export default new RoomController();
