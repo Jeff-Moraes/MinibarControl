@@ -3,6 +3,38 @@ import * as Yup from 'yup';
 import User from '../models/User';
 
 class UserController {
+  async index(req, res) {
+    if (!req.userAdmin) {
+      return res.status(400).json({ error: 'User is not Admin' });
+    }
+
+    const allUsers = await User.findAll({
+      order: ['name'],
+      attributes: ['id', 'name', 'admin'],
+    });
+
+    return res.json(allUsers);
+  }
+
+  async show(req, res) {
+    if (!req.userAdmin) {
+      return res.status(400).json({ error: 'User is not Admin' });
+    }
+
+    const { userId } = req.params;
+
+    const user = await User.findByPk(userId, {
+      order: ['name'],
+      attributes: ['id', 'name', 'admin'],
+    });
+
+    if (!user) {
+      return res.status(401).json({ error: `User ${userId} does not exist` });
+    }
+
+    return res.json(user);
+  }
+
   async store(req, res) {
     const schema = Yup.object({
       name: Yup.string().required(),

@@ -33,6 +33,8 @@ routes.post('/rooms', RoomController.store);
 routes.put('/rooms/:roomId', RoomController.update);
 routes.delete('/rooms/:roomId', RoomController.delete);
 
+routes.get('/users', UserController.index);
+routes.get('/users/:userId', UserController.show);
 routes.put('/users', UserController.update);
 routes.delete('/users/:userId', UserController.delete);
 
