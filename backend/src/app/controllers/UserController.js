@@ -73,6 +73,24 @@ class UserController {
 
     return res.json({ id, name, admin });
   }
+
+  async delete(req, res) {
+    if (!req.userAdmin) {
+      return res.status(400).json({ error: 'User is not Admin' });
+    }
+
+    const { userId } = req.params;
+
+    const user = await User.findByPk(userId);
+
+    if (!user) {
+      return res.status(401).json({ error: `User ${userId} does not exist` });
+    }
+
+    await User.destroy({ where: { id: userId } });
+
+    return res.json({ message: `User ${userId} has been deleted.` });
+  }
 }
 
 export default new UserController();

@@ -34,5 +34,6 @@ routes.put('/rooms/:roomId', RoomController.update);
 routes.delete('/rooms/:roomId', RoomController.delete);
 
 routes.put('/users', UserController.update);
+routes.delete('/users/:userId', UserController.delete);
 
 export default routes;
