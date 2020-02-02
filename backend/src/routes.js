@@ -27,7 +27,10 @@ routes.post('/minibars', MinibarController.store);
 routes.put('/minibars/:minibarId', MinibarController.update);
 routes.delete('/minibars/:minibarId', MinibarController.delete);
 
-routes.put('/users', UserController.update);
+routes.get('/rooms', RoomController.index);
+routes.get('/rooms/:roomId', RoomController.show);
 routes.post('/rooms', RoomController.store);
+
+routes.put('/users', UserController.update);
 
 export default routes;
