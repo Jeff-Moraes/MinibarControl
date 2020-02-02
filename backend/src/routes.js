@@ -25,6 +25,7 @@ routes.get('/minibars', MinibarController.index);
 routes.get('/minibars/:minibarId', MinibarController.show);
 routes.post('/minibars', MinibarController.store);
 routes.put('/minibars/:minibarId', MinibarController.update);
+routes.delete('/minibars/:minibarId', MinibarController.delete);
 
 routes.put('/users', UserController.update);
 routes.post('/rooms', RoomController.store);

@@ -1,4 +1,5 @@
 import Minibar from '../models/Minibar';
+import Room from '../models/Room';
 
 class MinibarController {
   async index(req, res) {
@@ -54,6 +55,28 @@ class MinibarController {
     });
 
     return res.json(minibarUpdated);
+  }
+
+  async delete(req, res) {
+    if (!req.userAdmin) {
+      return res.status(400).json({ error: 'User is not Admin' });
+    }
+
+    const { minibarId } = req.params;
+
+    const minibarLinked = await Room.findOne({
+      where: { minibar_id: minibarId },
+    });
+
+    if (minibarLinked) {
+      return res
+        .status(401)
+        .json({ error: `The minibar id ${minibarId} is linked to a room.` });
+    }
+
+    await Minibar.destroy({ where: { id: minibarId } });
+
+    return res.json({ message: `Minibar ${minibarId} has been deleted.` });
   }
 }
 
