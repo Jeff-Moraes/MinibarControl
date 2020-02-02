@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { getDayOfYear, addDays, parseISO } from 'date-fns';
+import { addDays, isToday, parseISO } from 'date-fns';
 import { Op } from 'sequelize';
 
 import User from '../models/User';
@@ -27,15 +27,17 @@ class MinibarCheckController {
       ],
     });
 
-    res.json(allConsumed);
+    return res.json(allConsumed);
   }
 
   async show(req, res) {
     const { roomId } = req.params;
     const { startDate, endDate } = req.query;
 
-    const parseStart = addDays(parseISO(startDate), 1);
-    const parseEnd = parseISO(endDate);
+    const parseStart = startDate
+      ? addDays(parseISO(startDate), 1)
+      : parseISO('2020-01-01 01:00:00');
+    const parseEnd = endDate ? parseISO(endDate) : new Date();
 
     const room = await MinibarCheck.findOne({
       where: {
@@ -61,7 +63,7 @@ class MinibarCheckController {
       ],
     });
 
-    res.json(room);
+    return res.json(room);
   }
 
   async store(req, res) {
@@ -88,16 +90,57 @@ class MinibarCheckController {
       minibar_id,
     };
 
-    const room = await MinibarCheck.findOne({ where: { room_id } });
+    const rooms = await MinibarCheck.findAll({
+      where: { room_id },
+    });
 
-    if (room && getDayOfYear(room.createdAt) === getDayOfYear(new Date())) {
-      await MinibarCheck.update(consumed, { where: { room_id } });
-      return res.json(consumed);
+    const roomChecked = rooms.find(room => isToday(room.createdAt));
+
+    if (roomChecked) {
+      return res.json({ error: 'Room already checked.' });
     }
 
-    await MinibarCheck.create(consumed);
+    const createRoomCheck = await MinibarCheck.create(consumed);
 
-    return res.json(consumed);
+    return res.json(createRoomCheck);
+  }
+
+  async update(req, res) {
+    const schema = Yup.object({
+      status: Yup.string().required(),
+      consumed_items: Yup.array(),
+      note: Yup.string(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation fails' });
+    }
+
+    const { status, consumed_items, note } = req.body;
+
+    const user_id = req.userId;
+    const { checkId } = req.params;
+
+    const room = await MinibarCheck.findOne({ where: { id: checkId } });
+
+    const consumed = {
+      user_id,
+      status,
+      consumed_items,
+      note,
+    };
+
+    const updateRoomCheck = await room.update(consumed);
+
+    return res.json(updateRoomCheck);
+  }
+
+  async delete(req, res) {
+    const { checkId } = req.params;
+
+    await MinibarCheck.destroy({ where: { id: checkId } });
+
+    return res.json({ message: `Room check ${checkId} has been deleted.` });
   }
 }
 
