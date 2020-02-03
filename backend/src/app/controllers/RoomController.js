@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 
 import Room from '../models/Room';
+import Minibar from '../models/Minibar';
 
 class RoomController {
   async index(req, res) {
@@ -8,9 +9,21 @@ class RoomController {
       return res.status(400).json({ error: 'User is not Admin' });
     }
 
-    const allRooms = await Room.findAll();
+    const { floorId } = req.params;
 
-    return res.json(allRooms);
+    const floorRooms = await Room.findAll({
+      where: {
+        floor: floorId,
+      },
+      include: [
+        {
+          model: Minibar,
+          attributes: ['name', 'items'],
+        },
+      ],
+    });
+
+    return res.json(floorRooms);
   }
 
   async show(req, res) {

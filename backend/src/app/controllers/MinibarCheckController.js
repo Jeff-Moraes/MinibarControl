@@ -9,6 +9,8 @@ import MinibarCheck from '../models/MinibarCheck';
 
 class MinibarCheckController {
   async index(req, res) {
+    const { floorId } = req.params;
+
     const allConsumed = await MinibarCheck.findAll({
       order: ['updated_at'],
       include: [
@@ -19,6 +21,9 @@ class MinibarCheckController {
         {
           model: Room,
           attributes: ['number', 'floor'],
+          where: {
+            floor: floorId,
+          },
         },
         {
           model: Minibar,

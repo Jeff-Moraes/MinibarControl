@@ -15,8 +15,8 @@ routes.post('/sessions', SessionController.store);
 
 routes.use(authMiddleware);
 // authMiddleware will apply in all routes after this line
-routes.get('/checks', MinibarCheckController.index);
-routes.get('/checks/:roomId', MinibarCheckController.show);
+routes.get('/checks/:floorId', MinibarCheckController.index);
+routes.get('/checks/:floorId/:roomId', MinibarCheckController.show);
 routes.post('/checks', MinibarCheckController.store);
 routes.put('/checks/:checkId', MinibarCheckController.update);
 routes.delete('/checks/:checkId', MinibarCheckController.delete);
@@ -27,8 +27,8 @@ routes.post('/minibars', MinibarController.store);
 routes.put('/minibars/:minibarId', MinibarController.update);
 routes.delete('/minibars/:minibarId', MinibarController.delete);
 
-routes.get('/rooms', RoomController.index);
-routes.get('/rooms/:roomId', RoomController.show);
+routes.get('/rooms/:floorId', RoomController.index);
+routes.get('/rooms/:floorId/:roomId', RoomController.show);
 routes.post('/rooms', RoomController.store);
 routes.put('/rooms/:roomId', RoomController.update);
 routes.delete('/rooms/:roomId', RoomController.delete);
