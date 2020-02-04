@@ -8,8 +8,8 @@ import history from './services/history';
 
 function App() {
   return (
-    <Router>
-      <Routes history={history} />
+    <Router history={history}>
+      <Routes />
     </Router>
   );
 }
