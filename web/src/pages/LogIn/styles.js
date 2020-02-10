@@ -28,6 +28,12 @@ export const Container = styled.div`
       margin: 30px auto;
     }
 
+    /* error */
+    span {
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
     input {
       background: rgba(0, 0, 0, 0.2);
       border: 0;
@@ -35,7 +41,7 @@ export const Container = styled.div`
       height: 40px;
       padding: 0 15px;
       color: #fff;
-      margin: 0 0 15px;
+      margin: 10px 0;
       text-align: center;
       transition: font-size 0.2s;
 
@@ -56,6 +62,7 @@ export const Container = styled.div`
       font-size: 16px;
       border: 0;
       border-radius: 4px;
+      margin-top: 20px;
       transition: background 0.2s;
 
       &:hover {
