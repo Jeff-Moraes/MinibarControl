@@ -1,7 +1,13 @@
 import React from 'react';
 
-// import { Container } from './styles';
+import Menu from '../../components/Menu';
+import View from '../../components/View';
 
 export default function Dashboard() {
-  return <h1>Dashboard</h1>;
+  return (
+    <>
+      <Menu />
+      <View />
+    </>
+  );
 }
