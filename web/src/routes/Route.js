@@ -1,22 +1,24 @@
 // jsx-props-no-spreading
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
+
+import { SessionContext } from '../Context/SessionContext';
 
 export default function RouteWrapper({
   component: Component,
   isPrivate,
   ...rest
 }) {
-  const signed = false;
+  const [session, setSession] = useContext(SessionContext);
 
-  // if (!signed && isPrivate) {
-  //   return <Redirect to="/" />;
-  // }
+  if (!session && isPrivate) {
+    return <Redirect to="/" />;
+  }
 
-  // if (signed && !isPrivate) {
-  //   return <Redirect to="/dashboard" />;
-  // }
+  if (session && !isPrivate) {
+    return <Redirect to="/dashboard" />;
+  }
 
   return <Route {...rest} component={Component} />;
 }

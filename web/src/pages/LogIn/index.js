@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
+
+import { SessionContext } from '../../Context/SessionContext';
+import { sessionLogIn } from '../../util/session';
 
 import { Container } from './styles';
 
@@ -12,8 +15,14 @@ const schema = Yup.object().shape({
 });
 
 function LogIn() {
-  function handleSubmit(data) {
-    console.tron.log(data);
+  const [session, setSession] = useContext(SessionContext);
+  // console.log('setSession', setSession);
+  // console.log('session', session);
+
+  async function handleSubmit({ name, password }) {
+    const newSession = await sessionLogIn(name, password);
+    console.tron.log(newSession);
+    setSession(newSession.user);
   }
 
   return (
