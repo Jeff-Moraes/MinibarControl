@@ -16,13 +16,11 @@ const schema = Yup.object().shape({
 
 function LogIn() {
   const [session, setSession] = useContext(SessionContext);
-  // console.log('setSession', setSession);
-  // console.log('session', session);
 
   async function handleSubmit({ name, password }) {
     const newSession = await sessionLogIn(name, password);
     console.tron.log(newSession);
-    setSession(newSession.user);
+    setSession(newSession);
   }
 
   return (
@@ -32,6 +30,7 @@ function LogIn() {
         <Input name="name" type="text" placeholder="User Name" />
         <Input name="password" type="password" placeholder="Password" />
 
+        {session && <span>{session.error}</span>}
         <button type="submit">Log in</button>
       </Form>
     </Container>
