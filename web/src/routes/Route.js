@@ -10,15 +10,17 @@ export default function RouteWrapper({
   isPrivate,
   ...rest
 }) {
-  const [session] = useContext(SessionContext);
+  const [session, setSession] = useContext(SessionContext);
 
-  if (session) {
-    if (session.error) {
-      return <Route component={Component} />;
-    }
-    if (session && !isPrivate) {
-      return <Redirect to="/dashboard" />;
-    }
+  if (session && !isPrivate) {
+    return <Redirect to="/dashboard" />;
+  }
+
+  const userSession = JSON.parse(localStorage.getItem('userSession'));
+
+  if (userSession && !session) {
+    setSession(userSession);
+    return <Redirect to="/dashboard" />;
   }
 
   if (!session && isPrivate) {

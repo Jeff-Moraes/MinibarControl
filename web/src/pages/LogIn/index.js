@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
 
+import api from '../../services/api';
 import { SessionContext } from '../../Context/SessionContext';
-import { sessionLogIn } from '../../util/session';
 
 import { Container } from './styles';
 
@@ -16,11 +16,22 @@ const schema = Yup.object().shape({
 
 function LogIn() {
   const [session, setSession] = useContext(SessionContext);
-
+  const [error, setError] = useState(false);
   async function handleSubmit({ name, password }) {
-    const newSession = await sessionLogIn(name, password);
-    console.tron.log(newSession);
-    setSession(newSession);
+    api
+      .post('/sessions', {
+        name,
+        password,
+      })
+      .then(response => {
+        setSession(response.data);
+        localStorage.setItem('userSession', JSON.stringify(response.data));
+        return response.data;
+      })
+      .catch(err => {
+        setError(true);
+        return err.response.data;
+      });
   }
 
   return (
@@ -30,7 +41,9 @@ function LogIn() {
         <Input name="name" type="text" placeholder="User Name" />
         <Input name="password" type="password" placeholder="Password" />
 
-        {session && <span>{session.error}</span>}
+        {error && (
+          <span>Please check your username and password and try again.</span>
+        )}
         <button type="submit">Log in</button>
       </Form>
     </Container>

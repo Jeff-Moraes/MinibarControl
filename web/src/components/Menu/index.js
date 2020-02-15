@@ -6,9 +6,9 @@ export default function Index() {
   const [consumed, setConsumed] = useContext(ConsumedContext);
 
   return (
-    <div>
+    <>
       <h1>{consumed}</h1>
       <h1>MENU</h1>
-    </div>
+    </>
   );
 }
