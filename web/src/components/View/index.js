@@ -1,16 +1,14 @@
-import React, { useContext } from 'react';
-
-import { ConsumedContext } from '../../Context/ConsumedContext';
+import React from 'react';
 
 import { Container } from './styles';
+import FloorsSelector from '../FloorsSelector';
+import RoomShow from '../RoomShow';
 
-export default function Index() {
-  const [consumed, setConsumed] = useContext(ConsumedContext);
-
+export default function View() {
   return (
     <Container>
-      <h1>{consumed}</h1>
-      <h1>VIEW</h1>
+      <FloorsSelector />
+      <RoomShow />
     </Container>
   );
 }

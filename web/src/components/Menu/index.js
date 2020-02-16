@@ -6,7 +6,7 @@ import hotelLogo from '../../assets/hotel-logo.png';
 
 import RoomSearch from '../RoomSearch';
 
-export default function Index() {
+export default function Menu() {
   const [consumed, setConsumed] = useContext(ConsumedContext);
 
   return (
