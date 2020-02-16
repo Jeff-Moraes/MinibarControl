@@ -17,7 +17,10 @@ const schema = Yup.object().shape({
 function LogIn() {
   const [session, setSession] = useContext(SessionContext);
   const [error, setError] = useState(false);
-  async function handleSubmit({ name, password }) {
+  const [loading, setLoading] = useState(false);
+
+  function handleSubmit({ name, password }) {
+    setLoading(true);
     api
       .post('/sessions', {
         name,
@@ -26,9 +29,11 @@ function LogIn() {
       .then(response => {
         setSession(response.data);
         localStorage.setItem('userSession', JSON.stringify(response.data));
+        setLoading(false);
         return response.data;
       })
       .catch(err => {
+        setLoading(false);
         setError(true);
         return err.response.data;
       });
@@ -44,7 +49,9 @@ function LogIn() {
         {error && (
           <span>Please check your username and password and try again.</span>
         )}
-        <button type="submit">Log in</button>
+        <button type="submit" disabled={loading}>
+          {loading ? 'Loading...' : 'Log in'}
+        </button>
       </Form>
     </Container>
   );
