@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 
+import api from '../services/api';
 import { SessionContext } from '../Context/SessionContext';
 
 export default function RouteWrapper({
@@ -13,6 +14,7 @@ export default function RouteWrapper({
   const [session, setSession] = useContext(SessionContext);
 
   if (session && !isPrivate) {
+    api.defaults.headers.Authorization = `Bearer ${session.token}`;
     return <Redirect to="/dashboard" />;
   }
 
@@ -20,6 +22,7 @@ export default function RouteWrapper({
 
   if (userSession && !session) {
     setSession(userSession);
+    api.defaults.headers.Authorization = `Bearer ${userSession.token}`;
     return <Redirect to="/dashboard" />;
   }
 
