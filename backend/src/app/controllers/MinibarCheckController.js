@@ -50,7 +50,7 @@ class MinibarCheckController {
       },
     });
 
-    const roomCheck = await MinibarCheck.findOne({
+    const roomCheck = await MinibarCheck.findAll({
       where: {
         room_id: id,
         updated_at: {
