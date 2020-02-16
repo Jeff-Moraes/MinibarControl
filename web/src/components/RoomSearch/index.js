@@ -1,14 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import api from '../../services/api';
 
+import { ConsumedContext } from '../../Context/ConsumedContext';
 import { Container } from './styles';
 
 export default function RoomSearch() {
   const [roomNumber, setRoomNumber] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [consumed, setConsumed] = useContext(ConsumedContext);
 
   function handleSubmit(event) {
     event.preventDefault();
+    api
+      .get(`/checks/${roomNumber}`)
+      .then(response => setConsumed(response.data))
+      .catch(err => err.response.data);
   }
 
   return (
