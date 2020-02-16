@@ -36,7 +36,7 @@ class MinibarCheckController {
   }
 
   async show(req, res) {
-    const { roomId } = req.params;
+    const { roomNumber } = req.params;
     const { startDate, endDate } = req.query;
 
     const parseStart = startDate
@@ -44,9 +44,15 @@ class MinibarCheckController {
       : parseISO('2020-01-01 01:00:00');
     const parseEnd = endDate ? parseISO(endDate) : new Date();
 
-    const room = await MinibarCheck.findOne({
+    const { id } = await Room.findOne({
       where: {
-        room_id: roomId,
+        number: roomNumber,
+      },
+    });
+
+    const roomCheck = await MinibarCheck.findOne({
+      where: {
+        room_id: id,
         updated_at: {
           [Op.between]: [parseStart, parseEnd],
         },
@@ -68,7 +74,7 @@ class MinibarCheckController {
       ],
     });
 
-    return res.json(room);
+    return res.json(roomCheck);
   }
 
   async store(req, res) {
