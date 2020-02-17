@@ -12,7 +12,6 @@ export default function RoomShow() {
 
   return (
     <Container>
-      <h1>Room Number</h1>
       {consumed ? <RoomCheckInfos /> : <h2>Select a Room</h2>}
     </Container>
   );

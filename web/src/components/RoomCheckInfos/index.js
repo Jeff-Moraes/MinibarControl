@@ -1,4 +1,7 @@
 import React, { useContext } from 'react';
+import { format } from 'date-fns';
+
+import { Container, Table } from './styles';
 
 import { ConsumedContext } from '../../Context/ConsumedContext';
 
@@ -6,11 +9,13 @@ export default function RoomCheckInfos() {
   const [consumed] = useContext(ConsumedContext);
 
   return (
-    <>
+    <Container>
+      <span>Room Number</span>
       <h1>{consumed[0].Room.number}</h1>
-      <table>
+      <Table>
         <thead>
           <tr>
+            <th>Date</th>
             <th>Status</th>
             <th>Consumed Items</th>
             <th>Notes</th>
@@ -19,12 +24,13 @@ export default function RoomCheckInfos() {
         </thead>
         <tbody>
           {consumed.map(consum => (
-            <tr>
+            <tr key={consum.id}>
+              <td>{format(new Date(consum.updatedAt), 'dd/MM/yyyy')}</td>
               <td>{consum.status}</td>
               <td>
                 <ul>
                   {consum.consumed_items.map(item => (
-                    <li>item</li>
+                    <li key={item}>{item}</li>
                   ))}
                 </ul>
               </td>
@@ -33,7 +39,7 @@ export default function RoomCheckInfos() {
             </tr>
           ))}
         </tbody>
-      </table>
-    </>
+      </Table>
+    </Container>
   );
 }
