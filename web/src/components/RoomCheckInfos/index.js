@@ -17,9 +17,10 @@ export default function RoomCheckInfos() {
           <tr>
             <th>Date</th>
             <th>Status</th>
-            <th>Consumed Items</th>
+            <th>Consumed</th>
             <th>Notes</th>
             <th>Checker</th>
+            <th>Total</th>
           </tr>
         </thead>
         <tbody>
@@ -36,10 +37,15 @@ export default function RoomCheckInfos() {
               </td>
               <td>{consum.note}</td>
               <td>{consum.User.name}</td>
+              <td>value</td>
             </tr>
           ))}
         </tbody>
       </Table>
+      <div className="total">
+        <p>Total</p>
+        <h2>TOTAL VALUE</h2>
+      </div>
     </Container>
   );
 }
