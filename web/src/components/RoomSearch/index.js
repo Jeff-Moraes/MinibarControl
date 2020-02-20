@@ -12,9 +12,15 @@ export default function RoomSearch() {
 
   function handleSubmit(event) {
     event.preventDefault();
+
+    console.log(startDate, endDate);
     api
-      .get(`/checks/${roomNumber}`)
-      .then(response => setConsumed(response.data))
+      .get(`/checks/${roomNumber}`, {
+        params: { startDate, endDate },
+      })
+      .then(response => {
+        return response.data.length > 0 && setConsumed(response.data);
+      })
       .catch(err => err.response.data);
   }
 
