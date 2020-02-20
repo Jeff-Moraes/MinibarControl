@@ -53,11 +53,11 @@ class MinibarCheckController {
     const roomCheck = await MinibarCheck.findAll({
       where: {
         room_id: id,
-        updated_at: {
+        created_at: {
           [Op.between]: [parseStart, parseEnd],
         },
       },
-      order: ['updated_at'],
+      order: ['created_at'],
       include: [
         {
           model: User,
