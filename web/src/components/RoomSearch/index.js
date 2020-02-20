@@ -19,7 +19,9 @@ export default function RoomSearch() {
         params: { startDate, endDate },
       })
       .then(response => {
-        return response.data.length > 0 && setConsumed(response.data);
+        return response.data.length > 0
+          ? setConsumed(response.data)
+          : setConsumed([]);
       })
       .catch(err => err.response.data);
   }
