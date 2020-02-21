@@ -4,7 +4,7 @@ import { Container } from './styles';
 import { ConsumedContext } from '../../Context/ConsumedContext';
 import hotelLogo from '../../assets/hotel-logo.png';
 
-import RoomSearch from '../RoomSearch';
+import RoomCheckSearch from '../RoomCheckSearch';
 
 export default function Menu() {
   const [consumed, setConsumed] = useContext(ConsumedContext);
@@ -12,7 +12,7 @@ export default function Menu() {
   return (
     <Container>
       <img src={hotelLogo} alt="Hotel Logo" />
-      <RoomSearch />
+      <RoomCheckSearch />
     </Container>
   );
 }

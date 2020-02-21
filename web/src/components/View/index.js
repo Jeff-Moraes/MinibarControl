@@ -1,14 +1,18 @@
 import React from 'react';
 
+import { FloorShowProvider } from '../../Context/FloorShowContext';
+
 import { Container } from './styles';
 import FloorsSelector from '../FloorsSelector';
-import RoomShow from '../RoomShow';
+import ShowInfos from '../ShowInfos';
 
 export default function View() {
   return (
     <Container>
-      <FloorsSelector />
-      <RoomShow />
+      <FloorShowProvider>
+        <FloorsSelector />
+        <ShowInfos />
+      </FloorShowProvider>
     </Container>
   );
 }

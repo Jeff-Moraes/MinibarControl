@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 
 import { ConsumedProvider } from '../../Context/ConsumedContext';
+import { ShowInfoProvider } from '../../Context/ShowInfoContext';
 import { SessionContext } from '../../Context/SessionContext';
 
 import Menu from '../../components/Menu';
@@ -17,10 +18,12 @@ export default function Dashboard() {
 
   return (
     <ConsumedProvider>
-      <Container>
-        <Menu />
-        <View />
-      </Container>
+      <ShowInfoProvider>
+        <Container>
+          <Menu />
+          <View />
+        </Container>
+      </ShowInfoProvider>
     </ConsumedProvider>
   );
 }
